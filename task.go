@@ -38,6 +38,8 @@ func (t *Task) Run(args []string) error {
 	//t.options = append(t.options, "--rm")
 	t.options = append(t.options, "--interactive")
 
+	t.options = append(t.options, t.Image)
+
 	// Merge with arguments
 	t.options = append(t.options, args...)
 	t.execute()
@@ -53,7 +55,7 @@ func (t *Task) readConfig(command string) {
 func (t *Task) addOptional(name string, value string) {
 	if value != "" {
 		value = os.ExpandEnv(value)
-		t.options = append(t.options, fmt.Sprintf("--%v=%v", name, strings.TrimSpace(value)))
+		t.options = append(t.options, fmt.Sprintf("--%s=%s", name, strings.TrimSpace(value)))
 	}
 }
 
