@@ -26,6 +26,8 @@ func main() {
 			Aliases: []string{"r"},
 			Usage:   "Run a command",
 			Action: func(c *cli.Context) error {
+				var u Update
+				u.RunIfRequired()
 				var t Task
 				t.Run(c.Args())
 				return nil
@@ -36,8 +38,8 @@ func main() {
 			Aliases: []string{"u"},
 			Usage:   fmt.Sprintf("update %v", Name),
 			Action: func(c *cli.Context) error {
-				fmt.Println(fmt.Sprintf("Updating %v...", Name))
-				update()
+				var u Update
+				u.Run()
 				return nil
 			},
 		},

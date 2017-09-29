@@ -26,6 +26,11 @@ func (t *Task) Run(args []string) error {
 
 	t.readConfig(args[0])
 
+	if len(t.Image) == 0 {
+		fmt.Println(fmt.Sprintf("Unknown command: %q", args[0]))
+		return nil
+	}
+
 	t.options = append(t.options, "run")
 	t.addOptional("volume", t.Volume)
 	t.addOptional("workdir", t.Workdir)
@@ -40,7 +45,7 @@ func (t *Task) Run(args []string) error {
 }
 
 func (t *Task) readConfig(command string) {
-	file := fmt.Sprintf(filepath.Join(cacheDirectory(), "%v.yml", command))
+	file := filepath.Join(cacheDirectory(), fmt.Sprintf("%v.yml", command))
 	yamlFile, _ := ioutil.ReadFile(file)
 	yaml.Unmarshal(yamlFile, t)
 }

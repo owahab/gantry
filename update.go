@@ -3,9 +3,33 @@ package main
 import (
 	"os"
 	"os/exec"
+	"fmt"
 )
 
-func update() {
+type Update struct {
+}
+
+func (u *Update) Run() {
+	fmt.Println("Updating registry...")
+}
+
+func (u *Update) RunIfRequired()  {
+	if u.IsRequired() {
+		fmt.Println("Local registry not found, downloading...")
+		u.execute()
+	}
+}
+
+func (u *Update) IsRequired() bool {
+	_, err := os.Stat(cacheDirectory())
+	if err != nil {
+		return true
+	}
+
+	return false
+}
+
+func (u *Update) execute() {
 	directory := cacheDirectory()
 	arguments := []string{}
 	_, err := os.Stat(directory)
