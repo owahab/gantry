@@ -13,3 +13,18 @@ archive:
     amd64: 64-bit
     darwin: osx
     linux: linux
+brew:
+  github:
+    owner: docker-gantry
+    name: homebrew-tap
+  folder: Formula
+  homepage: "docker-gantry.github.io"
+  description: "The last package you will need to install"
+  dependencies:
+    - git
+    - docker
+  # So you can brew test your formula. Default is empty.
+  test: |
+    system "#{bin}/gantry --version"
+  install: |
+    bin.install "gantry"
