@@ -9,7 +9,7 @@ import (
 )
 
 const Name = "gantry"
-const Version = "0.3.3"
+const Version = "0.4.0"
 const Usage = "Run Commands inside Docker Containers"
 const Repository = "https://github.com/docker-gantry/registry"
 const LocalCacheDirectory = ".gantry"
@@ -26,8 +26,6 @@ func main() {
 			Aliases: []string{"r"},
 			Usage:   "Run a command",
 			Action: func(c *cli.Context) error {
-				var u Update
-				u.RunIfRequired()
 				var t Task
 				t.Run(c.Args())
 				return nil
@@ -39,7 +37,7 @@ func main() {
 			Usage:   fmt.Sprintf("update %v", Name),
 			Action: func(c *cli.Context) error {
 				var u Update
-				u.Run()
+				u.Run(c.Args())
 				return nil
 			},
 		},

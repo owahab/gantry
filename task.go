@@ -11,11 +11,12 @@ import (
 )
 
 type Task struct {
-	options   []string
-	Name      string `yaml:"name"`
-	Image     string `yaml:"image"`
-	Volume    string `yaml:"volume"`
-	Workdir   string `yaml:"workdir"`
+	options     []string
+	Name        string   `yaml:"name"`
+	Image       string   `yaml:"image"`
+	Workdir     string   `yaml:"workdir"`
+	Volumes     []string `yaml:"volumes"`
+	Environment []string `yaml:"environment"`
 }
 
 func (t *Task) Run(args []string) error {
@@ -32,12 +33,20 @@ func (t *Task) Run(args []string) error {
 	}
 
 	t.options = append(t.options, "run")
-	t.addOptional("volume", t.Volume)
-	t.addOptional("workdir", t.Workdir)
-
-	//t.options = append(t.options, "--rm")
+	t.options = append(t.options, "--rm")
 	t.options = append(t.options, "--interactive")
 
+	t.addOptional("workdir", t.Workdir)
+	if len(t.Volumes) > 0 {
+		for _, vol := range t.Volumes {
+			t.addOptional("volume", vol)
+		}
+	}
+	if len(t.Environment) > 0 {
+		for _, env := range t.Environment {
+			t.addOptional("env", env)
+		}
+	}
 	t.options = append(t.options, t.Image)
 
 	// Merge with arguments
@@ -67,5 +76,6 @@ func (t *Task) execute() {
 	cmd.Stdout = os.Stdout
 	cmd.Stdin = os.Stdin
 	cmd.Stderr = os.Stderr
+	fmt.Println(fmt.Sprintf("Running command: %q", strings.Join(cmd.Args, " ")))
 	cmd.Run()
 }

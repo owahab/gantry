@@ -9,8 +9,9 @@ import (
 type Update struct {
 }
 
-func (u *Update) Run() {
+func (u *Update) Run(args []string) error {
 	fmt.Println("Updating registry...")
+	return nil
 }
 
 func (u *Update) RunIfRequired()  {
