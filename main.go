@@ -9,7 +9,7 @@ import (
 )
 
 const Name = "gantry"
-const Version = "0.4.1"
+const Version = "0.4.2"
 const Usage = "Run Commands inside Docker Containers"
 const Repository = "https://github.com/docker-gantry/registry"
 const LocalCacheDirectory = ".gantry"
