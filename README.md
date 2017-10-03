@@ -26,4 +26,12 @@ If you have Homebrew, just run:
 
 ## Usage
 
+Before running your first command, make sure you have updated your local command cache.
+
+Run:
+
+    $ gantry update
+
+Now start running commands in containers:
+
     $ gantry run <command> <parameters>
