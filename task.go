@@ -21,15 +21,13 @@ type Task struct {
 
 func (t *Task) Run(args []string) error {
 	if len(args) == 0 {
-		fmt.Println("Command too short")
-		return nil
+		return fmt.Errorf("Command too short")
 	}
 
 	t.readConfig(args[0])
 
 	if len(t.Image) == 0 {
-		fmt.Println(fmt.Sprintf("Unknown command: %q", args[0]))
-		return nil
+		return fmt.Errorf("Unknown command: %q", args[0])
 	}
 
 	t.options = append(t.options, "run")
@@ -51,8 +49,7 @@ func (t *Task) Run(args []string) error {
 
 	// Merge with arguments
 	t.options = append(t.options, args...)
-	t.execute()
-	return nil
+	return t.execute()
 }
 
 func (t *Task) readConfig(command string) {
@@ -68,8 +65,11 @@ func (t *Task) addOptional(name string, value string) {
 	}
 }
 
-func (t *Task) execute() {
-	pwd, _ := os.Getwd()
+func (t *Task) execute() error {
+	pwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("Unable to determine current directory: %v", err)
+	}
 	cmd := exec.Command("docker", t.options...)
 	cmd.Dir = pwd
 	cmd.Env = os.Environ()
@@ -77,5 +77,5 @@ func (t *Task) execute() {
 	cmd.Stdin = os.Stdin
 	cmd.Stderr = os.Stderr
 	fmt.Println(fmt.Sprintf("Running command: %q", strings.Join(cmd.Args, " ")))
-	cmd.Run()
+	return cmd.Run()
 }

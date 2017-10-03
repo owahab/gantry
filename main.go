@@ -27,7 +27,9 @@ func main() {
 			Usage:   "Run a command",
 			Action: func(c *cli.Context) error {
 				var t Task
-				t.Run(c.Args())
+				if err := t.Run(c.Args()); err != nil {
+					return cli.NewExitError(err.Error(), 2)
+				}
 				return nil
 			},
 		},
@@ -37,7 +39,9 @@ func main() {
 			Usage:   fmt.Sprintf("update %v", Name),
 			Action: func(c *cli.Context) error {
 				var u Update
-				u.Run(c.Args())
+				if err := u.Run(c.Args()); err != nil {
+					return cli.NewExitError(err.Error(), 2)
+				}
 				return nil
 			},
 		},
