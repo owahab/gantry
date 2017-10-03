@@ -36,7 +36,7 @@ func main() {
 		{
 			Name:    "update",
 			Aliases: []string{"u"},
-			Usage:   fmt.Sprintf("Update %v", Name),
+			Usage:   fmt.Sprintf("update %v", Name),
 			Action: func(c *cli.Context) error {
 				var u Update
 				if err := u.Run(c.Args()); err != nil {
