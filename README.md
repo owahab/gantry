@@ -22,7 +22,7 @@ Download the binaries: https://github.com/docker-gantry/gantry/releases/latest
 
 If you have Homebrew, just run:
 
-        $ brew install docker-gantry/tap/gantry
+    $ brew install docker-gantry/tap/gantry
 
 ## Usage
 
