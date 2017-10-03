@@ -11,26 +11,23 @@ type Update struct {
 
 func (u *Update) Run(args []string) error {
 	fmt.Println("Updating registry...")
+	return u.execute()
+}
+
+func (u *Update) runIfRequired() error {
+	if u.isRequired() {
+		fmt.Println("Local registry not found, downloading...")
+		return u.execute()
+	}
 	return nil
 }
 
-func (u *Update) RunIfRequired()  {
-	if u.IsRequired() {
-		fmt.Println("Local registry not found, downloading...")
-		u.execute()
-	}
-}
-
-func (u *Update) IsRequired() bool {
+func (u *Update) isRequired() bool {
 	_, err := os.Stat(cacheDirectory())
-	if err != nil {
-		return true
-	}
-
-	return false
+	return err != nil
 }
 
-func (u *Update) execute() {
+func (u *Update) execute() error {
 	directory := cacheDirectory()
 	arguments := []string{}
 	_, err := os.Stat(directory)
@@ -48,5 +45,5 @@ func (u *Update) execute() {
 	cmd.Stdout = os.Stdout
 	cmd.Stdin = os.Stdin
 	cmd.Stderr = os.Stderr
-	cmd.Run()
+	return cmd.Run()
 }
