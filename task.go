@@ -14,6 +14,7 @@ type Task struct {
 	options     []string
 	Name        string   `yaml:"name"`
 	Image       string   `yaml:"image"`
+	Executable  bool     `yaml:"executable"`
 	Workdir     string   `yaml:"workdir"`
 	Volumes     []string `yaml:"volumes"`
 	Environment []string `yaml:"environment"`
@@ -48,8 +49,12 @@ func (t *Task) Run(args []string) error {
 	}
 	t.options = append(t.options, t.Image)
 
-	// Merge with arguments
-	t.options = append(t.options, args...)
+	if t.Executable == true {
+		t.options = append(t.options, args[1:]...)
+	} else {
+		t.options = append(t.options, args...)
+	}
+
 	return t.execute()
 }
 
