@@ -26,3 +26,7 @@ brew:
     system "#{bin}/gantry --version"
   install: |
     bin.install "gantry"
+release:
+  github:
+    owner: docker-gantry
+    name: gantry
