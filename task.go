@@ -32,6 +32,7 @@ func (t *Task) Run(args []string) error {
 
 	t.options = append(t.options, "run")
 	t.options = append(t.options, "--rm")
+	t.options = append(t.options, "--tty")
 	t.options = append(t.options, "--interactive")
 
 	t.addOptional("workdir", t.Workdir)
