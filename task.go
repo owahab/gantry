@@ -21,13 +21,13 @@ type Task struct {
 
 func (t *Task) Run(args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("Command too short")
+		return fmt.Errorf("command too short")
 	}
 
 	t.readConfig(args[0])
 
 	if len(t.Image) == 0 {
-		return fmt.Errorf("Unknown command: %q", args[0])
+		return fmt.Errorf("unknown command: %q", args[0])
 	}
 
 	t.options = append(t.options, "run")
@@ -69,7 +69,7 @@ func (t *Task) addOptional(name string, value string) {
 func (t *Task) execute() error {
 	pwd, err := os.Getwd()
 	if err != nil {
-		return fmt.Errorf("Unable to determine current directory: %v", err)
+		return fmt.Errorf("unable to determine current directory: %v", err)
 	}
 	cmd := exec.Command("docker", t.options...)
 	cmd.Dir = pwd
