@@ -32,6 +32,7 @@ func main() {
 				}
 				return nil
 			},
+			SkipFlagParsing: true,
 		},
 		{
 			Name:    "update",
